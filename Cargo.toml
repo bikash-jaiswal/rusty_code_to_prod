@@ -19,7 +19,9 @@ name = "zero2prod"
 
 [dependencies]
 axum = "0.7.7"
+http = "1.1.0"
 log = "0.4.22"
+reqwest = "0.12.8"
 serde = { version = "1.0.213", features = ["derive"] }
 tokio = { version = "1.41.0", features = ["macros", "rt-multi-thread", "signal", "tracing"] }
 tracing-subscriber = "0.3.18"
