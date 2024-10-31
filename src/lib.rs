@@ -25,11 +25,14 @@ pub async fn run(address: SocketAddr) {
 
     // Create the listener
     let listener = tokio::net::TcpListener::bind(address)
-        .await.unwrap_or_else(|_| panic!(
-            "Failed to bind to address: {}:{}",
-            address.ip(),
-            address.port()
-        ));
+        .await
+        .unwrap_or_else(|_| {
+            panic!(
+                "Failed to bind to address: {}:{}",
+                address.ip(),
+                address.port()
+            )
+        });
     info!(
         "Starting server at http://{}:{}",
         address.ip(),
