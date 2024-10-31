@@ -1,8 +1,8 @@
-use axum::{http::StatusCode, response::IntoResponse, Json, routing::get, Router};
+use axum::{http::StatusCode, response::IntoResponse, routing::get, Json, Router};
+use chrono::prelude::*;
+use std::collections::HashMap;
 use std::net::SocketAddr;
 use tracing::info;
-use std::collections::HashMap;
-use chrono::prelude::*;
 
 pub async fn health_check() -> impl IntoResponse {
     info!("loading http://{}", "http://127.0.0.1:3000/health_check");
@@ -22,9 +22,21 @@ pub async fn run(address: SocketAddr) {
     let app = Router::new()
         .route("/", get(get_root)) // Correctly register the root route
         .route("/health_check", get(health_check)); // Register the health check route
-                                                    
+
     // Create the listener
-    let listener = tokio::net::TcpListener::bind(address).await.expect(&format!("Failed to bind to address: {}:{}", address.ip(), address.port()));
-    info!("Starting server at http://{}:{}", address.ip(), address.port());
-    axum::serve(listener, app).await.expect("Server failed to start");
+    let listener = tokio::net::TcpListener::bind(address)
+        .await
+        .expect(&format!(
+            "Failed to bind to address: {}:{}",
+            address.ip(),
+            address.port()
+        ));
+    info!(
+        "Starting server at http://{}:{}",
+        address.ip(),
+        address.port()
+    );
+    axum::serve(listener, app)
+        .await
+        .expect("Server failed to start");
 }

@@ -8,7 +8,7 @@ async fn spawn_app() -> String {
     let port = listener.local_addr().unwrap().port();
     // Pass the SocketAddr to your run function
     let server = zero2prod::run(listener.local_addr().unwrap());
-    
+
     // Spawn the server in the background
     tokio::spawn(server);
 
